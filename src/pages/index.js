@@ -42,6 +42,21 @@ const tasksList = [
 
 export default function Home(props) {
 
+  const updateTask = (id) => {
+    const original = [...tasks];
+    const curTask = original[id-1];
+    curTask.complete = !curTask.complete;
+    setTasks(original)
+  }
+
+  const editTask = (id) => {
+    if (tasks[id]) {
+      setTask(tasks.filter((task) => task._id === id)[0])
+    }
+  }
+  const deleteTask = (id) => {
+    setTasks((prev) => prev.filter((task) => task._id !== id));
+  }
   const handleChange = ({target}) => {
     target.value === '' ?
     setTask('') :
@@ -77,7 +92,7 @@ export default function Home(props) {
                 type='checkbox'
                 className= {styles.check_box}
                 checked= {task.complete}
-                onChange={'() => updateTask(task._id)' }
+                onChange={() => updateTask(task._id) }
               />
               <p
               className={
@@ -86,10 +101,10 @@ export default function Home(props) {
                 {task.task}
               </p>
               <button 
-                onClick={'() => editTask(task._id)'}
+                onClick={() => editTask(task._id)}
                 className={styles.edit_task}
               >&#9998;</button>
-              <button onClick={'() => deleteTask(task._id)'}
+              <button onClick={() => deleteTask(task._id)}
                 className={styles.delete_task}
               >&#10006;</button>
             </div>
